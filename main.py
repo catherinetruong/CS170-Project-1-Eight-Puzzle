@@ -1,5 +1,6 @@
 import queue
 import time
+import sys
 
 #--------------------------------------------------------------
 # global
@@ -75,6 +76,21 @@ class Tree:
         else:
             parent.add_child(node)
         return node
+    
+class OutputFile:
+    def __init__(self, filename):
+        self.terminal = sys.stdout
+        self.file = open(filename, "a")
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.file.write(message)
+
+    def flush(self):
+        self.terminal.flush()
+        self.file.flush()
+
+sys.stdout = OutputFile("output.txt")
 
 #--------------------------------------------------------------   
 
@@ -187,6 +203,12 @@ def manhattan_distance(puzzle):
                 distance += abs(i - goal_x) + abs(j - goal_y)  # manhattan formula
 
     return distance
+
+#function to print all work to output file
+def log_print(*args, **kwargs):
+    with open('output.txt', 'a') as f:
+        print(*args, **kwargs, file=f)
+    print(*args, **kwargs)
 
 #--------------------------------------------------------------
 
